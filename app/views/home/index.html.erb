@@ -1,0 +1,86 @@
+<div class="container-fluid p-0">
+
+    <section class="resume-section p-3 p-lg-5 d-flex d-column" id="about">
+    <div class="my-auto">
+        <h1 class="mb-0">Vineet
+        <span class="text-primary">Sahu</span>
+        </h1>
+        <div class="subheading mb-5">3542 Berry Street · Cheyenne Wells, CO 80810 · (317) 585-8468 ·
+        <a href="mailto:name@email.com">name@email.com</a>
+        </div>
+        <p class="mb-5">I am experienced in leveraging agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition.</p>
+        <ul class="list-inline list-social-icons mb-0">
+        <li class="list-inline-item">
+            <a href="https://www.facebook.com/vineet.sahu.786" target='_blank'>
+            <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+            </span>
+            </a>
+        </li>
+        <li class="list-inline-item hide">
+            <a>
+            <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+            </span>
+            </a>
+        </li>
+        <li class="list-inline-item">
+            <a href="https://www.linkedin.com/in/vineet-sahu-050351a2/">
+            <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+            </span>
+            </a>
+        </li>
+        <li class="list-inline-item">
+            <a href="https://github.com/vin-droid" target='_blank'>
+            <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+            </span>
+            </a>
+        </li>
+        </ul>
+    </div>
+    </section>
+
+      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="excel-splitter">
+        <div class="my-auto">
+          <h2 class="mb-5">Tools</h2>
+
+            <%= form_tag '/tool/excel_splitter', multipart: true do %>
+            <h3 class="mb-3 input-group">Excel File Splitter</h3>
+            <label for="file">File to Upload</label> <%= file_field_tag "file" %>
+            </br>
+            </br>
+            <label for="email">Email to send splitted files</label><%= text_field_tag :email,  nil, placeholder:'xyz@gmail.com', class: 'form-control'%>
+          <ul class="list-inline list-icons">
+            <li class="list-inline-item">
+                <%= button_tag(type: 'submit', class: "button btn bg-light") do %>
+                <i class="fa fa-upload"></i>
+                <% end %>
+            </li>
+          </ul>
+            <%end%>
+
+          <div class="subheading mb-3">Workflow</div>
+          <ul class="fa-ul mb-0">
+            <li>
+              <i class="fa-li fa fa-check"></i>
+              Mobile-First, Responsive Design</li>
+            <li>
+              <i class="fa-li fa fa-check"></i>
+              Cross Browser Testing &amp; Debugging</li>
+            <li>
+              <i class="fa-li fa fa-check"></i>
+              Cross Functional Teams</li>
+            <li>
+              <i class="fa-li fa fa-check"></i>
+              Agile Development &amp; Scrum</li>
+          </ul>
+        </div>
+      </section>
+
+</div>
