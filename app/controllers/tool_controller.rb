@@ -3,7 +3,10 @@ class ToolController < ApplicationController
     
 
     def excel_splitter
-        excel_splitter_params
+    	begin
+    	excel_split_req = ExcelSplitRequest.create!(excel_splitter_params)
+	    rescue
+	    end
     end
 
 
@@ -11,6 +14,7 @@ class ToolController < ApplicationController
 
     def excel_splitter_params
         binding.pry
+        params.require(:excel_splitter).permit(:user_email, files: [])
     end
 
 
