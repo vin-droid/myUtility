@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 2018_05_10_024744) do
     t.string "user_email", default: "", null: false
     t.float "file_size", default: 0.0, null: false
     t.integer "status", default: 0, null: false
-    t.string "errors", default: [], array: true
+    t.string "file_errors", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

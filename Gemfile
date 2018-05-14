@@ -19,6 +19,8 @@ gem 'simple_line_icons-rails', :git => "https://github.com/cmm21/rails-simple-li
 gem 'spreadsheet'
 gem 'creek'
 gem 'figaro'
+gem "sidekiq"
+
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby

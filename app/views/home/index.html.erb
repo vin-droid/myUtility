@@ -46,41 +46,6 @@
     </div>
     </section>
 
-      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="excel-splitter">
-        <div class="my-auto">
-          <h2 class="mb-5">Tools</h2>
-
-            <%= form_tag '/tool/excel_splitter', multipart: true do %>
-            <h3 class="mb-3 input-group">Excel File Splitter</h3>
-            <label for="file">File to Upload</label> <%= file_field_tag "file" %>
-            </br>
-            </br>
-            <label for="email">Email to send splitted files</label><%= text_field_tag :email,  nil, placeholder:'xyz@gmail.com', class: 'form-control'%>
-          <ul class="list-inline list-icons">
-            <li class="list-inline-item">
-                <%= button_tag(type: 'submit', class: "button btn bg-light") do %>
-                <i class="fa fa-upload"></i>
-                <% end %>
-            </li>
-          </ul>
-            <%end%>
-
-          <div class="subheading mb-3">Workflow</div>
-          <ul class="fa-ul mb-0">
-            <li>
-              <i class="fa-li fa fa-check"></i>
-              Mobile-First, Responsive Design</li>
-            <li>
-              <i class="fa-li fa fa-check"></i>
-              Cross Browser Testing &amp; Debugging</li>
-            <li>
-              <i class="fa-li fa fa-check"></i>
-              Cross Functional Teams</li>
-            <li>
-              <i class="fa-li fa fa-check"></i>
-              Agile Development &amp; Scrum</li>
-          </ul>
-        </div>
-      </section>
+  <%= render 'home/tools/excel_file_splitter.html.erb'%>
 
 </div>
