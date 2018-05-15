@@ -20,6 +20,7 @@ gem 'spreadsheet'
 gem 'creek'
 gem 'figaro'
 gem "sidekiq"
+gem 'parallel'
 
 
 # See https://github.com/rails/execjs#readme for more supported runtimes

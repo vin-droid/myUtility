@@ -4,13 +4,20 @@ require 'fileutils'
 require 'pry'
 
 class GenXl
-	def initialize(filename = nil)
-		@filename = filename || ""
-		@row_limit = 1000
-		@header_format = Spreadsheet::Format.new( :color => :black, :weight => :bold, :size => 11)
-		@creek = Creek::Book.new(filename)
-	end
+	include ActiveStorage::Downloading
 
+	attr_reader :blob
+
+	def initialize(blob, chunk_size)
+		@filename = blob.filename || ""
+		@blob = blob
+		@row_limit = chunk_size || 1000
+		@header_format = Spreadsheet::Format.new( :color => :black, :weight => :bold, :size => 11)
+		binding.pry
+		download_blob_to_tempfile do |file|
+			@creek = Creek::Book.new(file.path, extension: :xlsx)
+		end
+	end
 	def first_sheet
 		@creek.sheets[0]
 	end
@@ -38,8 +45,6 @@ class GenXl
 
 		header = rows.first.values
 		rows.each do |row|
-			puts "=================#{index} row"
-			puts "=================#{row.values} row"
 			if (index != 0)
 				new_rows.push(row.values)
 
@@ -65,11 +70,15 @@ class GenXl
 		dir = File.basename(filename, ".*").split(" ").join("-")
 		filepath = "split-files/#{dir}/#{dir}-#{row_limit}-#{serial_number}.xls"
 		FileUtils::mkdir_p ("split-files/#{dir}") unless File.directory?("split-files/#{dir}")
-		puts "=====writing============#{filepath} "
 		excel.write filepath
 		excel = nil
 		sheet1 = nil
 		rows = []
-		puts "end"
 	end
+
+
+	private
+    def tempdir
+      "#{Rails.root}/storage"
+    end
 end
