@@ -12,15 +12,13 @@ class ToolController < ApplicationController
         #   GenXl.new(blob)
         # end
         binding.pry
-        excel_split_req.excel_files.map(&:blob).find_each(batch_size: 1) do |blob|
-          gen_xl = GenXl.new(blob)
-          gen_xl.split_by(100)
+        files = excel_splitter_params[:excel_files].map do |file|
+          LocalFileUploader.new(file).save
         end
 
-
-
-        # Parallel.map(['a','b','c'], in_threads: 3) { |task|}
-        # ExcelSplitService.new(excel_splitter_params)
+        files.each do |filename|
+          GenXl.new(filename).delay.split_by 200
+        end
       rescue
       end
       redirect_back(fallback_location: root_path)
