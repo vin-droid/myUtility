@@ -18,4 +18,5 @@
 //= require activestorage
 //= require turbolinks
 //= require resume
+//= require tool
 //= require_tree .

@@ -34,5 +34,11 @@ module MyUtility
     config.generators.system_tests = nil
     config.active_job.queue_adapter = :sidekiq
     Sidekiq::Extensions.enable_delay!
+    Sidekiq.default_worker_options = { retry: 0 }
+    # Sidekiq.configure_server do |config|
+    #   config.server_middleware do |chain|
+    #     chain.add Sidekiq::Middleware::Server::RetryJobs, :max_retries => 0
+    #   end
+    # end
   end
 end

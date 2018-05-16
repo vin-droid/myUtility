@@ -1,5 +1,5 @@
-class ApplicationMailer < ActionMailer::Base
-  include CommonHelper
+class FileMailer < ApplicationMailer
+	  include CommonHelper
   default from: 'vineetsahu3493@gmail.com'
   layout 'mailer'
 
@@ -32,7 +32,5 @@ class ApplicationMailer < ActionMailer::Base
       end
     end
   end
-
-
 
 end
