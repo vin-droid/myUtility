@@ -13,6 +13,17 @@ module CommonHelper
   end
 
 
+  class ::Float
+    def to_mb
+      (self / 1000000.0).round(2)
+    end
+
+    def to_kb
+      (self / 1000.0).round(2)
+    end
+  end
+
+
   class ::Array
 
     # Check wether all emails are valid or not?
@@ -25,9 +36,17 @@ module CommonHelper
       reject { |e| e.blank? || e.nil? || [nil, 'nil', 'null', 'na'].include?(e.to_s.downcase) }.select { |e| (e.count('@') == 1) && (e =~ /\A\S+@.+\.\S+\z/) }
     end
 
-    def remove_file(filepath)
-      File.delete(filepath) if File.exist?(filepath)
+  end
+
+
+
+  class ::String
+    def to_dirname
+      File.basename(self, ".*").split(" ").join("-")
     end
   end
 
+  def remove_file(filepath)
+    File.delete(filepath) if File.exist?(filepath)
+  end
 end

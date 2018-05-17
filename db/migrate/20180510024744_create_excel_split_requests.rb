@@ -5,7 +5,7 @@ class CreateExcelSplitRequests < ActiveRecord::Migration[5.2]
       t.float :file_size, default: 0.0, null: false
       t.integer :status, default: 0, null: false
       t.string :file_errors, array: true, default: []
-      t.string :file_name, default: "", null: false
+      t.string :filename, default: "", null: false
       t.inet "user_ip"
       t.timestamps
     end

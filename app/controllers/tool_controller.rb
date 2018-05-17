@@ -6,43 +6,39 @@ class ToolController < ApplicationController
         # Upload file
         # read file in chunks
         # write those chunks in excel
-        binding.pry
-        data = {}
+        data, file = {}, ''
         excel_splitter_params.tap do |esp|
+          file = esp[:filename]
           data = {user_email: esp[:user_email],
             filename: esp[:filename].original_filename,
             chunk_size: esp[:chunk_size],
             file_size: esp[:filename].size,
-            user_ip: ""
+            user_ip: request.remote_ip
           }
         end
 
         excel_split_req = ExcelSplitRequest.create!(data)
 
-        file = excel_splitter_params[:excel_file]
+        filesize_in_mb = excel_split_req.file_size.to_i.to_mb
 
-        filesize_in_mb = file.size.to_mb
+        raise "Files with size more than #{MAX_FILE_SIZE} mb can not be process." if filesize_in_mb > MAX_FILE_SIZE 
 
-        # raise "Files with size more than #{MAX_FILE_SIZE} mb can not be process." if files_size > MAX_FILE_SIZE 
+        # Save File to local
+        LocalFileUploader.new(file).save
 
-        filepath = LocalFileUploader.new(file).save
-
-        async =  true
+        async =  filesize_in_mb > FILE_SIZE_LIMIT_SYNC
 
         if async
-          puts "====================== Background process========="
-          GenXl.delay.process_file_async(filepath, 20000)
+          GenXl.delay.process_file_async(excel_split_req, 20000)
           flash[:success] = "Files has been successfully processed."
           redirect_back(fallback_location: root_path)
         else
-          GenXl.process_file_sync(filepath, 200)
-          dir = File.basename(files.first, ".*").split(" ").join("-")
-          zip_input_dir = "split-files/#{dir}"
-          ZipFileGenerator.new(zip_input_dir, "storage/#{dir}.zip").write
-          send_file("#{Rails.root}/storage/#{dir}.zip")
+          filename = GenXl.process_file_sync(excel_split_req, 200)
+          send_file("#{Rails.root}/storage/#{filename}.zip")
         end
-
-      rescue
+      rescue Exception => e
+        flash[:error] = e.message
+        redirect_back(fallback_location: root_path)
       end
 
     end
