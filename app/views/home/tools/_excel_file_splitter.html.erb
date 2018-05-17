@@ -4,7 +4,7 @@
 
       <%= form_tag '/tool/excel_splitter', multipart: true , name: "excel_splitter" do %>
       <h3 class="mb-3 input-group">Excel File Splitter</h3>
-      <label for="files">File to Upload</label> <%= file_field_tag "excel_splitter[excel_files][]", multiple: true%>
+      <label for="files">File to Upload</label> <%= file_field_tag "excel_splitter[filename]"%>
       </br>
       </br>
       <label for="user_email">Email to send splitted files</label><%= text_field_tag "excel_splitter[user_email]",  nil, placeholder:'xyz@gmail.com', class: 'form-control'%>

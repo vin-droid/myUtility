@@ -1,5 +1,7 @@
 class ExcelSplitRequest < ApplicationRecord
 
-	has_many_attached :excel_files 
+
+
+	attr_accessor :chunk_size
 
 end

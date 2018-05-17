@@ -232,7 +232,6 @@ DEPENDENCIES
   pry
   puma (~> 3.11)
   rails (~> 5.2.0)
-  rubyzip
   sass-rails (~> 5.0)
   sidekiq
   simple_line_icons-rails!
