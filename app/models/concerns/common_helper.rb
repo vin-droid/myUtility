@@ -49,4 +49,17 @@ module CommonHelper
   def remove_file(filepath)
     File.delete(filepath) if File.exist?(filepath)
   end
+
+  def zip_path(filename)
+    "#{Rails.root}/storage/#{filename}.zip"
+  end
+
+  module ClassMethods
+    def remove_file(filepath)
+      File.delete(filepath) if File.exist?(filepath)
+    end
+    def zip_path(filename)
+      "#{Rails.root}/storage/#{filename}.zip"
+    end
+  end
 end

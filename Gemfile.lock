@@ -56,6 +56,7 @@ GEM
     bindex (0.5.0)
     bootsnap (1.3.0)
       msgpack (~> 1.0)
+    brakeman (4.3.0)
     builder (3.2.3)
     byebug (10.0.2)
     coderay (1.1.2)
@@ -128,6 +129,8 @@ GEM
     public_suffix (3.0.2)
     puma (3.11.4)
     rack (2.0.5)
+    rack-mini-profiler (1.0.0)
+      rack (>= 1.2.0)
     rack-protection (2.0.1)
       rack
     rack-test (1.0.0)
@@ -221,6 +224,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap (>= 1.1.0)
+  brakeman
   byebug
   coffee-rails (~> 4.2)
   creek
@@ -231,6 +235,7 @@ DEPENDENCIES
   pg (>= 0.18, < 2.0)
   pry
   puma (~> 3.11)
+  rack-mini-profiler
   rails (~> 5.2.0)
   sass-rails (~> 5.0)
   sidekiq

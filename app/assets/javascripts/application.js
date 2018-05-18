@@ -15,7 +15,6 @@
 //= require jquery.easing
 //= require jquery.easing.compatibility
 //= require bootstrap
-//= require activestorage
 //= require turbolinks
 //= require resume
 //= require tool

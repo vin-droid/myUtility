@@ -2,16 +2,22 @@
   <div class="my-auto">
     <h2 class="mb-5">Tools</h2>
 
-      <%= form_tag '/tool/excel_splitter', multipart: true , name: "excel_splitter" do %>
+      <%= form_tag '/tool/excel_splitter', multipart: true , name: "excel_splitter", id: "excel_splitter" do %>
       <h3 class="mb-3 input-group">Excel File Splitter</h3>
       <label for="files">File to Upload</label> <%= file_field_tag "excel_splitter[filename]"%>
+
       </br>
       </br>
-      <label for="user_email">Email to send splitted files</label><%= text_field_tag "excel_splitter[user_email]",  nil, placeholder:'xyz@gmail.com', class: 'form-control'%>
+      <label for="user_email">Email to send splitted files</label>
+      <%= text_field_tag "excel_splitter[user_email]",  nil, placeholder:'xyz@gmail.com', class: 'form-control'%>
+      </br>
+      </br>
+      <label for="chunk_size">Chunk size(<i> No of rows in one file</i>)</label>
+      <%= select_tag "excel_splitter[chunk_size]", options_for_select(CHUNK_OPTIONS, 200), {:include_blank => "Select chunk size" , class: 'form-control'} %>
     <ul class="list-inline list-icons">
       <li class="list-inline-item">
-          <%= button_tag(type: 'button', class: "button btn bg-light",data: { disable_with: "Please wait..." }, target: '_blank', onclick: "submitAndResetForm(this)") do %>
-          <i class="fa fa-upload"></i>
+          <%= button_tag(type: 'button', class: "button btn bg-info",data: { disable_with: "Please wait..." }, target: '_blank', onclick: "submitAndResetForm(this)") do %>
+          <i class="fa fa-upload"></i> Upload
           <% end %>
       </li>
     </ul>

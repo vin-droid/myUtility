@@ -3,38 +3,36 @@ class ToolController < ApplicationController
 
     def excel_splitter
       begin
-        # Upload file
-        # read file in chunks
-        # write those chunks in excel
         data, file = {}, ''
         excel_splitter_params.tap do |esp|
           file = esp[:filename]
+          raise "Please upload a valid file type." unless esp[:filename].content_type.eql? FILE_FORMAT
           data = {user_email: esp[:user_email],
             filename: esp[:filename].original_filename,
-            chunk_size: esp[:chunk_size],
+            chunk_size: esp[:chunk_size].to_i,
             file_size: esp[:filename].size,
             user_ip: request.remote_ip
           }
         end
+        raise "Files with size more than #{MAX_FILE_SIZE} mb can not be process." if filesize_in_mb > MAX_FILE_SIZE 
 
         excel_split_req = ExcelSplitRequest.create!(data)
 
         filesize_in_mb = excel_split_req.file_size.to_i.to_mb
 
-        raise "Files with size more than #{MAX_FILE_SIZE} mb can not be process." if filesize_in_mb > MAX_FILE_SIZE 
 
         # Save File to local
         LocalFileUploader.new(file).save
 
-        async =  filesize_in_mb > FILE_SIZE_LIMIT_SYNC
+        async = filesize_in_mb > FILE_SIZE_LIMIT_SYNC
 
         if async
-          GenXl.delay.process_file_async(excel_split_req, 20000)
+          GenXl.delay.process_file_async(excel_split_req, excel_split_req.chunk_size)
           flash[:success] = "Files has been successfully processed."
           redirect_back(fallback_location: root_path)
         else
-          filename = GenXl.process_file_sync(excel_split_req, 200)
-          send_file("#{Rails.root}/storage/#{filename}.zip")
+          filename = GenXl.process_file_sync(excel_split_req, excel_split_req.chunk_size)
+          send_file(zip_path(filename))
         end
       rescue Exception => e
         flash[:error] = e.message
