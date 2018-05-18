@@ -14,7 +14,7 @@ class ToolController < ApplicationController
             user_ip: request.remote_ip
           }
         end
-        raise "Files with size more than #{MAX_FILE_SIZE} mb can not be process." if filesize_in_mb > MAX_FILE_SIZE 
+        raise "Files with size more than #{MAX_FILE_SIZE} mb can not be process." if file.size > MAX_FILE_SIZE * 1000000 
 
         excel_split_req = ExcelSplitRequest.create!(data)
 

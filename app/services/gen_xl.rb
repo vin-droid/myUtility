@@ -85,15 +85,16 @@ end
   end
 
   def self.files_to_zip(dirname)
-    zip_input_dir = "split-files/#{dirname}"
+    zip_input_dir = "#{Rails.root}/split-files/#{dirname}"
     raise "File Directory is empty." if Dir[zip_input_dir].empty?
     remove_file zip_path(dirname)
     ZipFileGenerator.new(zip_input_dir, zip_path(dirname)).write
+    remove_files(zip_input_dir)
   end
 
   def self.send_file_to_mail(dirname, usr_email)
   	filepath = zip_path(dirname)
   	raise "Zipped file not found" unless File.exists? filepath
-    FileMailer.send_email(recipients: [usr_email], subject: "Zipped file", attachments: Hash["merged-file.zip", File.read(filepath)]).deliver
+    remove_file filepath if FileMailer.send_email(recipients: [usr_email], subject: "Zipped file", attachments: Hash["merged-file.zip", File.read(filepath)]).deliver
   end
 end

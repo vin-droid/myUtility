@@ -53,6 +53,9 @@ module CommonHelper
   def zip_path(filename)
     "#{Rails.root}/storage/#{filename}.zip"
   end
+  def remove_files(dirname)
+    FileUtils.rm_rf(dirname) unless Dir[dirname].empty?
+  end
 
   module ClassMethods
     def remove_file(filepath)
@@ -60,6 +63,9 @@ module CommonHelper
     end
     def zip_path(filename)
       "#{Rails.root}/storage/#{filename}.zip"
+    end
+    def remove_files(dirname)
+      FileUtils.rm_rf(dirname) unless Dir[dirname].empty?
     end
   end
 end
