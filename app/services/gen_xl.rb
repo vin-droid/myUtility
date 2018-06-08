@@ -20,34 +20,56 @@ class GenXl
   end
 
   def split_by(rows_limit)
+
+# binding.pry
     Benchmark.bm do |bm|
-    serial_number = count = 0
-    rows = first_sheet.rows || []
-    header = rows.first.values.map(&:humanize)
-    rows_count = 0
-    new_rows = new_row = []
-    rows_limit && @row_limit = rows_limit
-  bm.report do
-    rows.each_slice(10000) do |group|
-      group.reject! { |e| e.empty?}
-      next if group.blank?
-      group.each do |row|
-        if count != 0 && row.present?
-          new_rows.push(row.values)
-          if new_rows && count > 1 && new_rows.count == rows_limit
-            generate_new_excel(new_rows,header,filepath, serial_number)
-            serial_number += 1
-            new_rows = []
+      serial_number = count = 0
+      rows = first_sheet.rows || []
+      header = rows.first.values.map(&:humanize)
+      rows_count = 0
+      new_rows = new_row = []
+      rows_limit && @row_limit = rows_limit
+      bm.report do
+        rows.entries.reject! { |e| e.empty?}
+        rows.each_slice(10000) do |group|
+          # group.reject! { |e| e.empty?}
+          next if group.blank?
+          group.each do |row|
+            if count != 0 && row.present?
+              new_rows.push(row.values)
+              if new_rows && count > 1 && new_rows.count == rows_limit
+                puts "iteratino"
+                Thread.new{
+                  generate_new_excel(new_rows,header,filepath, serial_number)
+                  serial_number += 1
+                  new_rows = []
+                }
+              end
+            end
+            count += 1
           end
+          rows_count += group.count
         end
-        count += 1
+        generate_new_excel(new_rows,header,filepath, serial_number) unless new_rows.blank?
+        rows = new_rows = nil
       end
-      rows_count += group.count
+        # With only each loop
+      # bm.report do
+      #   rows.each do |row|
+      #     if count != 0 && row.present?
+      #       new_rows.push(row.values)
+      #       if new_rows && count > 1 && new_rows.count == rows_limit
+      #         generate_new_excel(new_rows,header,filepath, serial_number)
+      #         serial_number += 1
+      #         new_rows = []
+      #       end
+      #     end
+      #     count += 1
+      #   end
+      #   generate_new_excel(new_rows,header,filepath, serial_number) unless new_rows.blank?
+      #   rows = new_rows = nil
+      # end
     end
-    generate_new_excel(new_rows,header,filepath, serial_number) unless new_rows.blank?
-    rows = new_rows = nil
-  end
-end
   end
 
   def generate_new_excel(rows = [], header = [], filepath, serial_number)
